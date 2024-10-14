@@ -1,0 +1,30 @@
+@import "~antd/dist/reset.css";
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+}
+.App {
+  max-width: 1280px;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.filters {
+  display: none;
+}
+
+.ant-row {
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .filters {
+    display: flex;
+  }
+}
