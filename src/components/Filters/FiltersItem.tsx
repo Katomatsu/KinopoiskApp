@@ -1,5 +1,5 @@
 import React from 'react';
-import {AutoComplete} from "antd";
+import {Select} from "antd";
 import {FilterModel} from "../../models";
 import styled from "styled-components";
 
@@ -11,7 +11,7 @@ interface FiltersItemProps {
   handleFilterChange: (value: string) => void,
 }
 
-const StyledAutoComplete = styled(AutoComplete)`
+const StyledAutoSelect = styled(Select)`
     height: 50px;
     width: 100%;
 `;
@@ -19,7 +19,7 @@ const StyledAutoComplete = styled(AutoComplete)`
 const FiltersItem = ({options, placeholder, filterOptions, handleFilterChange}: FiltersItemProps) => {
   return (
     <>
-      <StyledAutoComplete
+      <StyledAutoSelect
         options={options}
         placeholder={placeholder}
         filterOption={filterOptions}

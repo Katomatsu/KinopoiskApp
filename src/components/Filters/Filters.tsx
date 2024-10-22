@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Button, Flex, Form} from 'antd';
+import {Button, Flex, Form, Typography} from 'antd';
 import 'antd/dist/reset.css'
-import {FilterModel} from "../../../models";
-import FiltersItem from "../FiltersItem";
+import {FilterModel} from "../../models";
+import FiltersItem from "./FiltersItem";
 
 
-import {useMoviesContext} from "../../../context";
+import {useMoviesContext} from "../../context";
+import styled from "styled-components";
 
 type filtersOptionsType = {
   genres: FilterModel[],
@@ -64,10 +65,19 @@ const filtersOptions: filtersOptionsType = {
 }
 
 interface FiltersSidebarProps {
-  styles?: React.CSSProperties;
+  // styles?: React.CSSProperties;
+  width?: string;
+  margin?: string;
+  padding?: string;
 }
 
-const FiltersSidebar = ({styles}: FiltersSidebarProps) => {
+const Wrapper = styled.div<{ width?: string, margin?: string, padding?: string }>`
+    width: ${(props) => props.width || '100%'};
+    margin: ${(props) => props.margin || '0'};
+    padding: ${(props) => props.padding || '0'};
+`
+
+const Filters = ({width= '100%', margin = '0', padding ='0'}: FiltersSidebarProps) => {
   const [selectedGenre, setSelectedGenre] = useState<string>('')
   const [selectedType, setSelectedType] = useState<string>('')
   const [selectedStatus, setSelectedStatus] = useState<string>('')
@@ -97,31 +107,34 @@ const FiltersSidebar = ({styles}: FiltersSidebarProps) => {
   }
 
   return (
-    <Form style={styles} onFinish={handleSubmit}>
-      <Flex vertical gap="large" >
-        <FiltersItem
-          key={'Genre'}
-          options={filtersOptions.genres}
-          placeholder="Select Genre"
-          filterOptions={filterOptions}
-          handleFilterChange={handleGenreChange}
-        />
-        <FiltersItem
-          key={'Type'}
-          options={filtersOptions.type}
-          placeholder="Select Type"
-          filterOptions={filterOptions}
-          handleFilterChange={handleTypeChange}/>
-        <FiltersItem
-          key={'Status'}
-          options={filtersOptions.status}
-          placeholder="Select Status"
-          filterOptions={filterOptions}
-          handleFilterChange={handleStatusChange}/>
-        <Button type={'primary'} htmlType={'submit'}>Search With Filters</Button>
-      </Flex>
-    </Form>
+    <Wrapper width={width} margin={margin} padding={padding}>
+      <Typography.Title level={2}>Filters</Typography.Title>
+      <Form  onFinish={handleSubmit}>
+        <Flex vertical gap="large" >
+          <FiltersItem
+            key={'Genre'}
+            options={filtersOptions.genres}
+            placeholder="Select Genre"
+            filterOptions={filterOptions}
+            handleFilterChange={handleGenreChange}
+          />
+          <FiltersItem
+            key={'Type'}
+            options={filtersOptions.type}
+            placeholder="Select Type"
+            filterOptions={filterOptions}
+            handleFilterChange={handleTypeChange}/>
+          <FiltersItem
+            key={'Status'}
+            options={filtersOptions.status}
+            placeholder="Select Status"
+            filterOptions={filterOptions}
+            handleFilterChange={handleStatusChange}/>
+          <Button type={'primary'} htmlType={'submit'}>Search With Filters</Button>
+        </Flex>
+      </Form>
+    </Wrapper>
   );
 };
 
-export default FiltersSidebar;
+export default Filters;

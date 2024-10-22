@@ -10,10 +10,12 @@ const { Search } = Input;
 
 
 const SearchWrapper = styled.div`
-  display: flex; 
-  gap: 20px; 
-  align-items: center; 
-  width: 100%; 
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
 `;
 
 const StyledSearch = styled(Search)`

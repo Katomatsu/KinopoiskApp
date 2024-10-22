@@ -15,16 +15,6 @@
   padding: 10px;
 }
 
-.filters {
-  display: none;
-}
-
 .ant-row {
   justify-content: center;
-}
-
-@media (min-width: 768px) {
-  .filters {
-    display: flex;
-  }
 }

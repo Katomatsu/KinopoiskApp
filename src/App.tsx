@@ -2,30 +2,42 @@ import React from 'react';
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
+import MainLayout from "./components/MainLayout/MainLayout";
+import RandomMovie from "./components/RandomMovie/RandomMovie";
 
 
 const App = () => {
 
-    const router = createBrowserRouter([
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Navigate to="/movies"/>,
+    },
+    {
+      path: '/movies',
+      element: <MainLayout/>,
+      children: [
         {
-            path: '/',
-            element: <Navigate to="/movies" />,
+          index: true,
+          element: <MainPage/>,
         },
         {
-            path: '/movies',
-            element: <MainPage />,
+          path: ':movieId',
+          element: <MovieDetailsPage/>
         },
         {
-            path: '/movies/:movieId',
-            element: <MovieDetailsPage/>
+          path: 'random',
+          element: <RandomMovie/>
         }
-    ])
+      ]
+    }
+  ])
 
-    return (
-        <div className="App">
-            <RouterProvider router={router}/>
-        </div>
-    );
+  return (
+    <div className="App">
+      <RouterProvider router={router}/>
+    </div>
+  );
 };
 
 export default App;

@@ -26,10 +26,8 @@ const Posters = ({ posters }: PostersProps) => {
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={10}
         slidesPerView={1}
-        navigation
         loop={true}
         pagination={{ clickable: true }}
-        scrollbar={{ draggable: true }}
       >
         {posters.map(poster => (
           <SwiperSlide key={poster.id}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Drawer} from "antd";
-import FiltersSidebar from "../FiltersSidebar/FiltersSidebar";
+import Filters from "../Filters";
 
 interface FiltersDropdownProps {
   isOpened: boolean;
@@ -10,7 +10,7 @@ interface FiltersDropdownProps {
 const FiltersDropdown = ({isOpened, onClose}: FiltersDropdownProps) => {
   return (
     <Drawer open={isOpened} onClose={onClose}>
-      <FiltersSidebar/>
+      <Filters/>
     </Drawer>
   );
 };
