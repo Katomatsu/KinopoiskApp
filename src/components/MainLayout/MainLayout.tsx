@@ -7,7 +7,7 @@ import styled from "styled-components";
 const {Header} = Layout
 
 const StyledHeader = styled(Header)`
-    background: white;
+    background: var(--main-color);
     padding: 0;
     display: flex;
     justify-content: space-between;

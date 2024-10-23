@@ -1,12 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ImagesResponseModel, MovieModel} from "../../models";
-import {Typography} from 'antd';
+import {Button, Tabs, Typography} from 'antd';
 import ReviewsList from "../Reviews/ReviewsList";
-import 'swiper/scss'
-import 'swiper/scss/navigation';
-import 'swiper/scss/pagination';
-import 'swiper/scss/a11y'
-import 'swiper/scss/scrollbar'
 import {useFetchData} from "../../hooks";
 import Persons from "../Persons/Persons";
 import Posters from "../Posters/Posters";
@@ -19,70 +14,113 @@ interface MovieDetailsProps {
 }
 
 const StyledWrapper = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(30%, auto) minmax(60%, auto);
     gap: 20px;
 
     @media (min-width: 576px) {
-        margin: 0 auto; 
+        margin: 0 auto;
     }
-    
+
     @media (max-width: 576px) {
         flex-direction: column;
         justify-content: center;
     }
 `;
 
-const StyledImage = styled.div`
-    flex: 0 0 40%;
+const LeftColumn = styled.div`
+    text-align: center;
     img {
         width: 100%;
         height: auto;
         object-fit: cover;
     }
-    
+    h3 {
+        margin-top: 0 !important; 
+    }
     @media (max-width: 576px) {
-        flex: 0 0 100%;
         margin-bottom: 20px;
     }
 `;
 
-const StyledContent= styled.div`
-    flex: 0 0 60%;
-    max-width: 60%;
-    @media (max-width: 576px) {
-        flex: 0 0 100%;
-        max-width: 100%;
+const DescriptionContainer = styled.div`
+    position: relative;
+    display: flex;
+
+    .movie__description {
+        max-height: 100%;
+    }
+
+    .hidden {
+        overflow: hidden;
+        max-height: 50px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            height: 100%;
+            bottom: 0px;
+            background: linear-gradient(180deg, transparent 0%, white 105%);
+            pointer-events: none;
+        }
     }
 `
 
-const {Title, Text, Paragraph} = Typography;
+const StyledButton = styled(Button)`
+    display: block;
+    margin: 10px auto 20px;
+`
 
 const MovieDetails = ({item, movieId}: MovieDetailsProps) => {
-  const {data} = useFetchData<ImagesResponseModel>('https://api.kinopoisk.dev/v1.4/image', {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false)
+  const {data, isLoading} = useFetchData<ImagesResponseModel>('https://api.kinopoisk.dev/v1.4/image', {
     movieId: movieId
   })
 
 
   return (
     <StyledWrapper>
-      <StyledImage>
+      <LeftColumn>
         <img src={item.poster.url} alt="poster of the movie"/>
-      </StyledImage>
-      <StyledContent>
-        <Title>
+        <Typography.Title level={3}>Kinopoisk Rating: {item.rating.kp}</Typography.Title>
+        <Typography.Title level={3} >IMDB Rating: {item.rating.imdb}</Typography.Title>
+      </LeftColumn>
+      <div>
+        <Typography.Title>
           {item.name}
-        </Title>
-        <Text>
-          {item.description}
-        </Text>
-        <Title level={2}>Kinopoisk Rating: {item.rating.kp}</Title>
+        </Typography.Title>
+        <DescriptionContainer>
+          <Typography.Text className={`movie__description ${!isExpanded ? 'hidden' : ''}`}>
+            {item.description}
+          </Typography.Text>
+        </DescriptionContainer>
+        <StyledButton
+          onClick={() => setIsExpanded(prev => !prev)}>
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </StyledButton>
 
-        {data && data.docs && <Posters posters={data.docs}/>}
-        <ReviewsList movieId={movieId}/>
         <Persons persons={item.persons}/>
 
-        {item.isSeries && <SeasonsInfo seasons={item.seasonsInfo}/>}
-      </StyledContent>
+        <Tabs defaultActiveKey='1' type={'card'} items={[
+          {
+            label: 'Seasons Info',
+            key: '1',
+            children: <SeasonsInfo seasons={item.seasonsInfo}/>,
+          },
+          {
+            label: 'Gallery',
+            key: '2',
+            children: !isLoading && <Posters posters={data.docs}/>,
+          },
+          {
+            label: 'Reviews',
+            key: '3',
+            children: <ReviewsList movieId={movieId}/>,
+          },
+        ]}  />
+      </div>
     </StyledWrapper>
   );
 };

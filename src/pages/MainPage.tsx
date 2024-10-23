@@ -12,13 +12,13 @@ const {Content, Sider} = Layout;
 
 
 const StyledContent = styled(Content)`
-    background-color: white;
+    background-color: var(--main-color);
     display: flex;
     flex-direction: column;
 `;
 
 const StyledSider = styled(Sider)`
-    background: white !important;
+    background: var(--main-color) !important;
     padding-top: 10px;
     display: none;
     @media (min-width: 768px) {

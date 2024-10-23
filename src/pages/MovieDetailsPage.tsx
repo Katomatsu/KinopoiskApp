@@ -11,7 +11,7 @@ const MovieDetailsPage = () => {
 
   return (
     <>
-      {data && !isLoading && <MovieDetails movieId={movieId} item={data}/>}
+      {!isLoading  && <MovieDetails movieId={movieId} item={data}/>}
     </>
   );
 };

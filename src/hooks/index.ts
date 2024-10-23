@@ -1,10 +1,10 @@
-
-
-
 import axios from "axios";
-import {useQuery} from "@tanstack/react-query";
+import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
 
 interface IParams {
+  page?: number;
+  limit?: number
+
   [key: string]: string | number;
 }
 
