@@ -11,15 +11,15 @@ import 'swiper/scss/scrollbar'
 
 
 const CarouselContainer = styled.div`
-    max-width: 100%;
+    width: 100%;
     --swiper-theme-color: var(--main-color);
 `;
 
 const StyledImage = styled.img`
   width: 100%; 
-  height: auto; 
-    ob
+  height: auto;
 `;
+
 
 interface PostersProps {
   posters: ImageModel[]
@@ -37,7 +37,7 @@ const Posters = ({ posters }: PostersProps) => {
         pagination={{ clickable: true }}
       >
         {posters.map(poster => (
-          <SwiperSlide key={poster.id}>
+          <SwiperSlide key={poster.id} style={{width: '100%'}}>
             <StyledImage src={poster.url} alt="Poster" />
           </SwiperSlide>
         ))}

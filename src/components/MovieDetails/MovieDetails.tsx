@@ -7,6 +7,7 @@ import Persons from "../Persons/Persons";
 import Posters from "../Posters/Posters";
 import SeasonsInfo from "../SeasonsInfo/SeasonsInfo";
 import styled from "styled-components";
+import SimilarMovies from "../SimilarMovies/SimilarMovies";
 
 interface MovieDetailsProps {
   item: MovieModel,
@@ -17,27 +18,27 @@ const StyledWrapper = styled.div`
     display: grid;
     grid-template-columns: minmax(30%, auto) minmax(60%, auto);
     gap: 20px;
-
-    @media (min-width: 576px) {
-        margin: 0 auto;
-    }
+    margin-bottom: 40px;
 
     @media (max-width: 576px) {
-        flex-direction: column;
         justify-content: center;
+        grid-template-columns: 100%;
     }
 `;
 
 const LeftColumn = styled.div`
     text-align: center;
+
     img {
         width: 100%;
         height: auto;
         object-fit: cover;
     }
+
     h3 {
-        margin-top: 0 !important; 
+        margin-top: 0 !important;
     }
+
     @media (max-width: 576px) {
         margin-bottom: 20px;
     }
@@ -68,9 +69,20 @@ const DescriptionContainer = styled.div`
     }
 `
 
+const RightColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+`
+
 const StyledButton = styled(Button)`
     display: block;
     margin: 10px auto 20px;
+`
+const TabsWrapper = styled.div`
+    width: 100%;
 `
 
 const MovieDetails = ({item, movieId}: MovieDetailsProps) => {
@@ -81,47 +93,53 @@ const MovieDetails = ({item, movieId}: MovieDetailsProps) => {
 
 
   return (
-    <StyledWrapper>
-      <LeftColumn>
-        <img src={item.poster.url} alt="poster of the movie"/>
-        <Typography.Title level={3}>Kinopoisk Rating: {item.rating.kp}</Typography.Title>
-        <Typography.Title level={3} >IMDB Rating: {item.rating.imdb}</Typography.Title>
-      </LeftColumn>
-      <div>
-        <Typography.Title>
-          {item.name}
-        </Typography.Title>
-        <DescriptionContainer>
-          <Typography.Text className={`movie__description ${!isExpanded ? 'hidden' : ''}`}>
-            {item.description}
-          </Typography.Text>
-        </DescriptionContainer>
-        <StyledButton
-          onClick={() => setIsExpanded(prev => !prev)}>
-          {isExpanded ? 'Read Less' : 'Read More'}
-        </StyledButton>
+    <>
+      <StyledWrapper>
+        <LeftColumn>
+          <img src={item.poster.url} alt="poster of the movie"/>
+          <Typography.Title level={3}>Kinopoisk Rating: {item.rating.kp}</Typography.Title>
+          <Typography.Title level={3}>IMDB Rating: {item.rating.imdb}</Typography.Title>
+        </LeftColumn>
+        <RightColumn>
+          <Typography.Title>
+            {item.name}
+          </Typography.Title>
+          <DescriptionContainer>
+            <Typography.Text className={`movie__description ${!isExpanded ? 'hidden' : ''}`}>
+              {item.description}
+            </Typography.Text>
+          </DescriptionContainer>
+          <StyledButton
+            onClick={() => setIsExpanded(prev => !prev)}>
+            {isExpanded ? 'Read Less' : 'Read More'}
+          </StyledButton>
 
-        <Persons persons={item.persons}/>
+          <Persons persons={item.persons}/>
 
-        <Tabs defaultActiveKey='1' type={'card'} items={[
-          {
-            label: 'Seasons Info',
-            key: '1',
-            children: <SeasonsInfo seasons={item.seasonsInfo}/>,
-          },
-          {
-            label: 'Gallery',
-            key: '2',
-            children: !isLoading && <Posters posters={data.docs}/>,
-          },
-          {
-            label: 'Reviews',
-            key: '3',
-            children: <ReviewsList movieId={movieId}/>,
-          },
-        ]}  />
-      </div>
-    </StyledWrapper>
+          <TabsWrapper>
+            <Tabs defaultActiveKey='1' type={'card'} items={[
+              {
+                label: 'Seasons Info',
+                key: '1',
+                children: <SeasonsInfo seasons={item.seasonsInfo}/>,
+              },
+              {
+                label: 'Gallery',
+                key: '2',
+                children: !isLoading && <Posters posters={data.docs}/>,
+              },
+              {
+                label: 'Reviews',
+                key: '3',
+                children: <ReviewsList movieId={movieId}/>,
+              },
+            ]}/>
+          </TabsWrapper>
+
+        </RightColumn>
+      </StyledWrapper>
+      <SimilarMovies similarMovies={item.similarMovies}/>
+    </>
   );
 };
 

@@ -44,7 +44,7 @@ const MainPage = () => {
   if (status) params['status'] = status;
   if (type) params['type'] = type;
 
-  const {data, isLoading} = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie', params);
+  const {data, isLoading} = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie?notNullFields=similarMovies.id&notNullFields=description', params);
 
   useEffect(() => {
     if (data) {

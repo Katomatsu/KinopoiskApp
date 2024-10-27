@@ -39,16 +39,6 @@ const StyledList = styled.ul`
     }
 `
 
-// grid={{
-//   gutter: 16,
-//     xs: 1,
-//     sm: 2,
-//     md: 3,
-//     lg: 4,
-//     xl: 4,
-//     xxl: 5
-// }}
-
 const MovieList = ({movies, isLoading}: MovieListProps) => {
 
   movies && console.log(Math.round(movies.total / movies.limit))

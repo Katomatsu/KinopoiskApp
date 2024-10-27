@@ -11,9 +11,9 @@ interface MovieItemProps {
 const {Title} = Typography
 
 const StyledListItem = styled(List.Item)`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px; 
+    //display: grid;
+    //grid-template-columns: 1fr;
+    //gap: 16px; 
 `
 
 const StyledImage = styled.img`
