@@ -51,7 +51,6 @@ const StyledList = styled.ul`
 
 const MovieList = ({movies, isLoading}: MovieListProps) => {
 
-  movies && console.log(Math.round(movies.total / movies.limit))
   return (
     <>
       <Flex vertical wrap gap='large'>

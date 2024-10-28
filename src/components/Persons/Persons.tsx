@@ -9,24 +9,15 @@ import styled from "styled-components";
 
 const breakPoints: { [key: number]: { [key: string]: number } } = {
   320: {
-    slidesPerView: 5,
+    slidesPerView: 2,
     spaceBetween: 10,
   },
-  402: {
-    slidesPerView: 5,
-    spaceBetween: 10,
-
-  },
-  577: {
-    slidesPerView: 5,
-    spaceBetween: 10
-  },
-  800: {
-    slidesPerView: 5,
+  768: {
+    slidesPerView: 3,
     spaceBetween: 10,
   },
   1024: {
-    slidesPerView: 5,
+    slidesPerView: 4,
     spaceBetween: 10
   }
 }
@@ -39,17 +30,19 @@ const StyledTitle = styled(Typography.Title)`
 `;
 
 const SlideWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  margin-bottom: 20px;
+    display: block;
+    width: 150px;
+    margin: 0 auto 20px;    
 `;
 
 const Img = styled.img`
-    height: 210px;
+    height: 230px;
+    width: 100%;
 `;
+
+export const SwiperWrapper = styled.div`
+    width: 100%;
+`
 
 const StyledName = styled(Typography.Title)`
   text-align: center;
@@ -59,22 +52,24 @@ const StyledName = styled(Typography.Title)`
 
 const Persons = ({persons}: PersonsProps) => {
   return (
-    <div >
+    < >
       <StyledTitle level={2}>Актеры:</StyledTitle>
-      <Swiper modules={[Mousewheel]}
-              breakpoints={breakPoints}
-              mousewheel={true}
-              loop={true}>
-        {persons.map(person =>
-          <SwiperSlide key={person.id}>
-            <SlideWrapper >
-              <Img src={person.photo} alt={person.name || 'no information'}/>
-              <StyledName level={5}>{person.name || 'no information'}</StyledName>
-            </SlideWrapper>
-          </SwiperSlide>
-        )}
-      </Swiper>
-    </div>
+      <SwiperWrapper>
+        <Swiper modules={[Mousewheel]}
+                breakpoints={breakPoints}
+                mousewheel={true}
+                loop={true}>
+          {persons.map(person =>
+            <SwiperSlide key={person.id}>
+              <SlideWrapper >
+                <Img src={person.photo} alt={person.name || 'no information'}/>
+                <StyledName level={5}>{person.name || 'no information'}</StyledName>
+              </SlideWrapper>
+            </SwiperSlide>
+          )}
+        </Swiper>
+      </SwiperWrapper>
+    </>
   );
 };
 

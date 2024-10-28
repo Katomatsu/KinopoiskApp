@@ -109,6 +109,7 @@ export interface MovieModel {
     "russianFilmCritics": number,
     "await": number
   },
+  similarMovies: MovieModel[] | undefined,
   persons: Person[],
   "movieLength": null,
   "totalSeriesLength": number,
