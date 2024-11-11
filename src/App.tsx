@@ -4,6 +4,8 @@ import MainPage from "./pages/MainPage";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
 import MainLayout from "./components/MainLayout/MainLayout";
 import RandomMovie from "./components/RandomMovie/RandomMovie";
+import ErrorPage from "./pages/ErrorPage";
+import RandomMoviePage from "./pages/RandomMoviePage";
 
 
 const App = () => {
@@ -27,9 +29,13 @@ const App = () => {
         },
         {
           path: 'random',
-          element: <RandomMovie/>
-        }
+          element: <RandomMoviePage/>
+        },
       ]
+    },
+    {
+      path: '*',
+      element: <ErrorPage message={'Page not found!'}/>,
     }
   ])
 

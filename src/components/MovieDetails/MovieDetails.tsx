@@ -10,8 +10,8 @@ import styled from "styled-components";
 import SimilarMovies from "../SimilarMovies/SimilarMovies";
 
 interface MovieDetailsProps {
-  item: MovieModel,
-  movieId: string
+    item: MovieModel,
+    movieId: string
 }
 
 const StyledWrapper = styled.div`
@@ -86,61 +86,61 @@ const TabsWrapper = styled.div`
 `
 
 const MovieDetails = ({item, movieId}: MovieDetailsProps) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const {data, isLoading} = useFetchData<ImagesResponseModel>('https://api.kinopoisk.dev/v1.4/image', {
-    movieId: movieId
-  })
+    const [isExpanded, setIsExpanded] = useState<boolean>(false)
+    const {data, isLoading} = useFetchData<ImagesResponseModel>('https://api.kinopoisk.dev/v1.4/image', {
+        movieId: movieId
+    })
 
 
-  return (
-    <>
-      <StyledWrapper>
-        <LeftColumn>
-          <img src={item.poster.url} alt="poster of the movie"/>
-          <Typography.Title level={3}>Kinopoisk Rating: {item.rating.kp}</Typography.Title>
-          <Typography.Title level={3}>IMDB Rating: {item.rating.imdb}</Typography.Title>
-        </LeftColumn>
-        <RightColumn>
-          <Typography.Title>
-            {item.name}
-          </Typography.Title>
-          <DescriptionContainer>
-            <Typography.Text className={`movie__description ${!isExpanded ? 'hidden' : ''}`}>
-              {item.description}
-            </Typography.Text>
-          </DescriptionContainer>
-          <StyledButton
-            onClick={() => setIsExpanded(prev => !prev)}>
-            {isExpanded ? 'Read Less' : 'Read More'}
-          </StyledButton>
+    return (
+        <>
+            <StyledWrapper>
+                <LeftColumn>
+                    <img src={item.poster.url} alt="poster of the movie"/>
+                    <Typography.Title level={3}>Kinopoisk Rating: {item.rating.kp}</Typography.Title>
+                    <Typography.Title level={3}>IMDB Rating: {item.rating.imdb}</Typography.Title>
+                </LeftColumn>
+                <RightColumn>
+                    <Typography.Title>
+                        {item.name}
+                    </Typography.Title>
+                    {item.description ? <DescriptionContainer>
+                        <Typography.Text className={`movie__description ${!isExpanded ? 'hidden' : ''}`}>
+                            {item.description}
+                        </Typography.Text>
+                    </DescriptionContainer> : <div>There is data about description</div>}
+                    <StyledButton
+                        onClick={() => setIsExpanded(prev => !prev)}>
+                        {isExpanded ? 'Read Less' : 'Read More'}
+                    </StyledButton>
 
-          <Persons persons={item.persons}/>
+                    <Persons persons={item.persons}/>
 
-          <TabsWrapper>
-            <Tabs defaultActiveKey='1' type={'card'} items={[
-              {
-                label: 'Seasons Info',
-                key: '1',
-                children: <SeasonsInfo seasons={item.seasonsInfo}/>,
-              },
-              {
-                label: 'Gallery',
-                key: '2',
-                children: !isLoading && <Posters posters={data.docs}/>,
-              },
-              {
-                label: 'Reviews',
-                key: '3',
-                children: <ReviewsList movieId={movieId}/>,
-              },
-            ]}/>
-          </TabsWrapper>
+                    <TabsWrapper>
+                        <Tabs defaultActiveKey='1' type={'card'} items={[
+                            {
+                                label: 'Seasons Info',
+                                key: '1',
+                                children: item.isSeries ? <SeasonsInfo seasons={item.seasonsInfo}/> : <div>This is not a series</div>,
+                            },
+                            {
+                                label: 'Gallery',
+                                key: '2',
+                                children: !isLoading && data.docs.length > 0 ? <Posters posters={data.docs}/> : <div>There is no posters</div>,
+                            },
+                            {
+                                label: 'Reviews',
+                                key: '3',
+                                children: <ReviewsList movieId={movieId}/>,
+                            },
+                        ]}/>
+                    </TabsWrapper>
 
-        </RightColumn>
-      </StyledWrapper>
-      <SimilarMovies similarMovies={item.similarMovies}/>
-    </>
-  );
+                </RightColumn>
+            </StyledWrapper>
+            <SimilarMovies similarMovies={item.similarMovies}/>
+        </>
+    );
 };
 
 export default MovieDetails;

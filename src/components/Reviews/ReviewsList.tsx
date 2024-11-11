@@ -59,7 +59,6 @@ const ReviewsList = ({movieId}: ReviewsListProps) => {
 
   return (
     <>
-      <StyledTitle level={2}>Reviews:</StyledTitle>
       {isLoading ? <Typography.Title level={3}>Fetching reviews...</Typography.Title>
         :
         <>

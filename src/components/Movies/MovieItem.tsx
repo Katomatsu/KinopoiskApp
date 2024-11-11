@@ -1,11 +1,11 @@
 import React from 'react';
 import {MovieModel} from "../../models";
-import {Card, Typography, List} from "antd";
+import {Card, Typography, List, Skeleton} from "antd";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 interface MovieItemProps {
-  item?: MovieModel
+    item?: MovieModel
 }
 
 const {Title} = Typography
@@ -35,17 +35,17 @@ const StyledCard = styled(Card)`
 
 const MovieItem = ({item}: MovieItemProps) => {
 
-  return (
-    <StyledListItem >
-      <Link to={`/movies/${item.id}`}>
-        <StyledCard hoverable
-                    cover={<StyledImage src={item.poster.previewUrl}
-                                        alt={item.name}/>}>
-          <Title level={4}>{item.name ?? item.alternativeName}</Title>
-        </StyledCard>
-      </Link>
-    </StyledListItem>
-  );
+    return (
+        <StyledListItem>
+            <Link to={`/movies/${item.id}`}>
+                <StyledCard hoverable
+                            cover={item.poster?.previewUrl ? <StyledImage src={item.poster.previewUrl}
+                                                                          alt={item.name}/> : <Skeleton.Image/>}>
+                    <Title level={4}>{item.name ?? item.alternativeName}</Title>
+                </StyledCard>
+            </Link>
+        </StyledListItem>
+    );
 };
 
 export default MovieItem;

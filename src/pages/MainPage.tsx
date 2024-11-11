@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import MovieList from "../components/Movies/MovieList";
 import Filters from "../components/Filters/Filters";
-import {Layout} from "antd";
+import {Layout, Spin} from "antd";
 import {MoviesResponseModel} from "../models";
 import {useMoviesContext} from "../context";
 import {useFetchData} from "../hooks";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar/SearchBar";
+import ErrorPage from "./ErrorPage";
 
 const {Content, Sider} = Layout;
 
@@ -27,54 +28,50 @@ const StyledSider = styled(Sider)`
 `;
 
 const SearchBarWrapper = styled.div`
-   flex: 1;
-   max-width: 100%;
+    flex: 1;
+    max-width: 100%;
 `;
 
 const MainPage = () => {
-  const {genre, status, type, currPage, pageSize} = useMoviesContext();
-  const [movies, setMovies] = useState<MoviesResponseModel>();
+    const {genre, status, type, currPage, pageSize} = useMoviesContext();
+    const [movies, setMovies] = useState<MoviesResponseModel>();
 
-  const params: Record<string, string | number> = {
-    notNullFields: 'poster.url',
-    page: currPage,
-    limit: pageSize,
-  };
-  if (genre) params['genres.name'] = genre;
-  if (status) params['status'] = status;
-  if (type) params['type'] = type;
+    const params: Record<string, string | number> = {
+        notNullFields: 'poster.url',
+        page: currPage,
+        limit: pageSize,
+    };
+    if (genre) params['genres.name'] = genre;
+    if (status) params['status'] = status;
+    if (type) params['type'] = type;
 
-  const {data, isLoading} = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie?notNullFields=similarMovies.id&notNullFields=description', params);
+    const {
+        data, isLoading, isError, error
+    } = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie?notNullFields=similarMovies.id&notNullFields=description', params);
 
-  useEffect(() => {
-    if (data) {
-      setMovies(data);
-    }
-  }, [data]);
+    useEffect(() => {
+        if (data) {
+            setMovies(data);
+        }
+    }, [data]);
 
-  return (
-    <Layout>
-      <StyledContent>
-        <SearchBarWrapper>
-          <SearchBar setMovies={setMovies}/>
-        </SearchBarWrapper>
-        <MovieList movies={movies} isLoading={isLoading}/>
-      </StyledContent>
-      <StyledSider width={'20%'}>
-        <Filters margin={'40px 0 0 0'} padding={'0 10px'} />
-      </StyledSider>
-    </Layout>
-  );
+    if (isError) return <ErrorPage message={error.message}/>;
+
+    return (
+        <Layout>
+            <StyledContent>
+                <SearchBarWrapper>
+                    <SearchBar setMovies={setMovies}/>
+                </SearchBarWrapper>
+                {isLoading
+                    ? <Spin tip="Fetching movies from the server..." size={"large"}><div/></Spin>
+                    : <MovieList movies={movies}/>}
+            </StyledContent>
+            <StyledSider width={'20%'}>
+                <Filters margin={'40px 0 0 0'} padding={'0 10px'}/>
+            </StyledSider>
+        </Layout>
+    );
 };
 
 export default MainPage;
-
-
-// <StyledHeader>
-//         <FlexContainer>
-//           <TypeWriter/>
-//           <SearchBarWrapper>
-//             <SearchBar setMovies={setMovies} />
-//           </SearchBarWrapper>
-//         </FlexContainer>
-//       </StyledHeader>
