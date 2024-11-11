@@ -30,38 +30,34 @@ const StyledButton = styled(Button)`
 `;
 
 interface SearchBarProps {
-  setMovies: (movies: MoviesResponseModel) => void
+  onSearch: (searchString: string) => void
 }
 
-const SearchBar = ({ setMovies }: SearchBarProps) => {
-  const { searchTerm, setSearchTerm } = useMoviesContext();
-  const [opened, setOpened] = useState(false);
+const SearchBar = ({ onSearch }: SearchBarProps) => {
+  const [opened, setOpened] = useState<boolean>(false);
+  const [input, setInput] = useState<string>('')
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    setInput(event.target.value);
   };
 
-  const { data, refetch } = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie/search', {
-    notNullFields: 'poster.url',
-    query: searchTerm,
-    page: 1,
-    limit: 100,
-  });
+  // const { data, refetch } = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie/search', {
+  //   query: searchTerm,
+  //   page: 1,
+  //   limit: 100,
+  // });
 
-  const handleSearch = async () => {
-    if (searchTerm.trim()) {
-      await refetch();
-      if (data) {
-        setMovies(data);
-      }
-      setSearchTerm('');
+  const handleSearch = () => {
+    if (input.trim()) {
+      onSearch(input);
     }
+    setInput('')
   };
 
   return (
     <SearchWrapper>
       <StyledSearch
-        value={searchTerm}
+        value={input}
         onChange={handleInputChange}
         onSearch={handleSearch}
         enterButton='search'

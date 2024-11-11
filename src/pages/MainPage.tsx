@@ -33,27 +33,37 @@ const SearchBarWrapper = styled.div`
 `;
 
 const MainPage = () => {
-    const {genre, status, type, currPage, pageSize} = useMoviesContext();
+    const {genre, status, type, currPage, pageSize, searchTerm, setSearchTerm} = useMoviesContext();
     const [movies, setMovies] = useState<MoviesResponseModel>();
 
+    const handleSearch = (searchString: string) => {
+        setSearchTerm(searchString);
+    }
+
+    let reqUrl: string = 'https://api.kinopoisk.dev/v1.4/movie?notNullFields=similarMovies.id&notNullFields=description&notNullFields=poster.url';
+
     const params: Record<string, string | number> = {
-        notNullFields: 'poster.url',
         page: currPage,
         limit: pageSize,
     };
-    if (genre) params['genres.name'] = genre;
-    if (status) params['status'] = status;
-    if (type) params['type'] = type;
+    if (searchTerm) {
+        params['query'] = searchTerm;
+        reqUrl = 'https://api.kinopoisk.dev/v1.4/movie/search';
+    } else {
+        if (genre) params['genres.name'] = genre;
+        if (status) params['status'] = status;
+        if (type) params['type'] = type;
+    }
 
     const {
         data, isLoading, isError, error
-    } = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie?notNullFields=similarMovies.id&notNullFields=description', params);
+    } = useFetchData<MoviesResponseModel>(reqUrl, params);
 
     useEffect(() => {
         if (data) {
             setMovies(data);
         }
-    }, [data]);
+    }, [data, searchTerm, genre,status,type]);
 
     if (isError) return <ErrorPage message={error.message}/>;
 
@@ -61,10 +71,12 @@ const MainPage = () => {
         <Layout>
             <StyledContent>
                 <SearchBarWrapper>
-                    <SearchBar setMovies={setMovies}/>
+                    <SearchBar onSearch={handleSearch}/>
                 </SearchBarWrapper>
                 {isLoading
-                    ? <Spin tip="Fetching movies from the server..." size={"large"}><div/></Spin>
+                    ? <Spin tip="Fetching movies from the server..." size={"large"}>
+                        <div/>
+                    </Spin>
                     : <MovieList movies={movies}/>}
             </StyledContent>
             <StyledSider width={'20%'}>

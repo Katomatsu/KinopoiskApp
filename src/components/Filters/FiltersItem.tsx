@@ -5,29 +5,27 @@ import styled from "styled-components";
 
 
 interface FiltersItemProps {
-  options: FilterModel[],
-  placeholder: string,
-  filterOptions: (inputValue: string, options: { value: string }) => boolean
-  handleFilterChange: (value: string) => void,
+    options: FilterModel[],
+    placeholder: string,
+    value: string
+    handleFilterChange: (value: string) => void,
 }
 
-const StyledAutoSelect = styled(Select)`
+const StyledSelect = styled(Select)`
     height: 50px;
     width: 100%;
 `;
 
-const FiltersItem = ({options, placeholder, filterOptions, handleFilterChange}: FiltersItemProps) => {
-  return (
-    <>
-      <StyledAutoSelect
-        options={options}
-        placeholder={placeholder}
-        filterOption={filterOptions}
-        onChange={(value: string) => handleFilterChange(value)}
-
-      />
-    </>
-  );
+const FiltersItem = ({options, placeholder, handleFilterChange, value
+}: FiltersItemProps) => {
+    return (
+        <StyledSelect
+            options={options}
+            placeholder={placeholder}
+            onChange={(value: string) => handleFilterChange(value)}
+            value={value}
+        />
+    );
 };
 
 export default FiltersItem;

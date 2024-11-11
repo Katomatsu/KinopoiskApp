@@ -17,10 +17,11 @@ const StyledListItem = styled(List.Item)`
 `
 
 const StyledImage = styled.img`
-    height: 300px;
-    width: 100%;
-    object-fit: cover;
+    height: 300px !important;
+    width: 100% !important;
+    object-fit: cover !important;
 `;
+const StyledSkeletonImage = styled(StyledImage).attrs({ as: Skeleton.Image })``;
 
 const StyledCard = styled(Card)`
     border-radius: 8px;
@@ -40,7 +41,7 @@ const MovieItem = ({item}: MovieItemProps) => {
             <Link to={`/movies/${item.id}`}>
                 <StyledCard hoverable
                             cover={item.poster?.previewUrl ? <StyledImage src={item.poster.previewUrl}
-                                                                          alt={item.name}/> : <Skeleton.Image/>}>
+                                                                          alt={item.name}/> : <StyledSkeletonImage/>}>
                     <Title level={4}>{item.name ?? item.alternativeName}</Title>
                 </StyledCard>
             </Link>
