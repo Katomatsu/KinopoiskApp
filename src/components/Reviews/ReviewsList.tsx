@@ -5,11 +5,8 @@ import ReviewItem from "./ReviewItem";
 import styled from "styled-components";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import axios from "axios";
+import {API_KEY, baseUrl} from "../../constants";
 
-
-const StyledTitle = styled(Typography.Title)`
-    margin-bottom: 20px; 
-`;
 
 const ReviewContainer = styled.div`
     margin-top: 20px;
@@ -27,9 +24,9 @@ const ReviewsList = ({movieId}: ReviewsListProps) => {
     const fetchReviews = async (pageParam: number): Promise<ReviewsResponseModel | undefined> => {
         try {
             const {data} = await axios.get<ReviewsResponseModel>(
-                `https://api.kinopoisk.dev/v1.4/review?movieId=${movieId}&page=${pageParam}&limit=10`, {
+                `${baseUrl}/review?movieId=${movieId}&page=${pageParam}&limit=10`, {
                     headers: {
-                        'X-API-Key': 'T6Z3RCY-8PJ4B99-M3KQ3MD-H97NKNF'
+                        'X-API-Key': API_KEY
                     }
                 }
             );
@@ -48,11 +45,9 @@ const ReviewsList = ({movieId}: ReviewsListProps) => {
         queryKey: ["reviews"],
         queryFn: ({pageParam}) => fetchReviews(pageParam),
         initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            console.log(lastPage);
+        getNextPageParam: (lastPage) => {
             return lastPage.page + 1 <= lastPage.pages ? lastPage.page + 1 : undefined
         },
-
     });
 
 

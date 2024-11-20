@@ -32,15 +32,13 @@ const StyledList = styled.ul`
         gap: 40px;
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 575px) {
         grid-template-columns: 250px;
         padding: 0 30px;
     }
 `
 
 const MovieList = ({movies}: MovieListProps) => {
-
-    movies && console.log(Math.round(movies.total / movies.limit))
     return (
         <>
             <Flex vertical wrap gap='large'>

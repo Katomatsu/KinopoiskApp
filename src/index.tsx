@@ -8,13 +8,13 @@ import {MovieContextProvider} from "./context";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const queryClient = new QueryClient();
 root.render(
-  <>
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <MovieContextProvider>
-          <App/>
-        </MovieContextProvider>
-      </QueryClientProvider>
-    </StrictMode>
-  </>
+    <>
+        <StrictMode>
+            <QueryClientProvider client={queryClient}>
+                <MovieContextProvider>
+                    <App/>
+                </MovieContextProvider>
+            </QueryClientProvider>
+        </StrictMode>
+    </>
 );

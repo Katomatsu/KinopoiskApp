@@ -1,12 +1,13 @@
 import React from 'react';
 import Filters from "../Filters/Filters";
 import MovieItem from "../Movies/MovieItem";
-import {useMoviesContext} from "../../context";
+import {baseUrl} from "../../constants";
 import {MovieModel} from "../../models";
 import {useFetchData} from "../../hooks";
 import MovieSkeleton from "../Movies/MovieSkeleton";
 import styled from "styled-components";
-import ErrorPage from "../../pages/ErrorPage";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import {useMoviesContext} from "../../context";
 
 const Container = styled.div`
     display: grid;
@@ -50,12 +51,13 @@ const RandomMovie = () => {
         isLoading,
         isError,
         error
-    } = useFetchData<MovieModel>('https://api.kinopoisk.dev/v1.4/movie/random', params);
-    if (isError) return <ErrorPage message={error.message}/>;
+    } = useFetchData<MovieModel>(`${baseUrl}/movie/random`, params)
     return (
         <Container>
             <div className="movie">
-                {!isLoading ? <MovieItem item={movie} key={movie.id}/> : <MovieSkeleton/>}
+                {isLoading && <MovieSkeleton/>}
+                {!isLoading && !isError && <MovieItem item={movie} key={movie.id}/>}
+                {!isLoading && isError && <ErrorMessage message={error.message}/>}
             </div>
             <div className="filters">
                 <Filters/>

@@ -7,6 +7,9 @@ const TypewriterWrapper = styled.div`
     font-size: 40px;
     font-family: 'Arial', sans-serif;
     font-weight: bold;
+    @media (max-width: 375px) {
+        font-size: 31px;
+    }
 `;
 
 const StyledLink = styled(Link)`

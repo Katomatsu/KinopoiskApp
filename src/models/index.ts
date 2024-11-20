@@ -70,10 +70,6 @@ export type MovieType = "animated-series" | "cartoon" | "anime" | "tv-series" | 
 export type MovieStatus = "announced" | "completed" | "filming" | "post-production" | "pre-production"
 
 
-export interface FilterModel {
-  "value": string,
-}
-
 interface ReleaseYearModel {
   "start": number,
   "end": number
@@ -82,6 +78,10 @@ interface ReleaseYearModel {
 export interface SeasonInfoModel {
   "number": number;
   "episodesCount": number;
+}
+
+export interface FilterModel {
+  value: string
 }
 
 

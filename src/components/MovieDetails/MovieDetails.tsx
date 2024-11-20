@@ -9,6 +9,7 @@ import Posters from "../Posters/Posters";
 import SeasonsInfo from "../SeasonsInfo/SeasonsInfo";
 import styled from "styled-components";
 import SimilarMovies from "../SimilarMovies/SimilarMovies";
+import {baseUrl} from "../../constants";
 
 interface MovieDetailsProps {
     item: MovieModel,
@@ -60,10 +61,10 @@ const DescriptionContainer = styled.div`
         &:after {
             content: "";
             position: absolute;
-            left: 0px;
-            right: 0px;
+            left: 0;
+            right: 0;
             height: 100%;
-            bottom: 0px;
+            bottom: 0;
             background: linear-gradient(180deg, transparent 0%, white 105%);
             pointer-events: none;
         }
@@ -88,7 +89,7 @@ const TabsWrapper = styled.div`
 
 const MovieDetails = ({item, movieId}: MovieDetailsProps) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
-    const {data, isLoading} = useFetchData<ImagesResponseModel>('https://api.kinopoisk.dev/v1.4/image', {
+    const {data, isLoading} = useFetchData<ImagesResponseModel>(`${baseUrl}/image`, {
         movieId: movieId
     })
 

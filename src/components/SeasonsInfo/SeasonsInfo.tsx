@@ -5,17 +5,16 @@ import styled from "styled-components";
 
 const { Title, Paragraph } = Typography;
 
-// Styled components
 const StyledTitle = styled(Title)`
-  margin-bottom: 20px; /* Space below the title */
+  margin-bottom: 20px; 
 `;
 
 const NoDataMessage = styled.h3`
-  margin-top: 20px; /* Space above the no data message */
+  margin-top: 20px; 
 `;
 
 const SeasonsInfoWrapper = styled.div`
-  margin-top: 20px; /* Space above the seasons info */
+  margin-top: 20px;
 `;
 
 interface SeasonsInfoProps {

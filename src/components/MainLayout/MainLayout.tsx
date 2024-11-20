@@ -12,43 +12,27 @@ const StyledHeader = styled(Header)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px
+    height: 100px;
 `;
 
-const List = styled.ul`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-const ListItem = styled.li`
-    margin: 0;
-    padding: 10px 0;
-    list-style-type: none;
-    line-height: 20px;
-`
 
 const MainLayout = () => {
-  return (
-    <>
+    return (
+        <>
 
-      <StyledHeader>
-        <TypeWriter/>
-        <div>
-          <List>
-            <ListItem>Sign In</ListItem>
-            <ListItem>
-              <Link to={'/movies/random'}>
-                Random Movie
-              </Link>
-            </ListItem>
-          </List>
-        </div>
-      </StyledHeader>
-      <main>
-        <Outlet/>
-      </main>
-    </>
-  );
+            <StyledHeader>
+                <TypeWriter/>
+                <div>
+                    <Link to={'/random'}>
+                        Random Movie
+                    </Link>
+                </div>
+            </StyledHeader>
+            <main>
+                <Outlet/>
+            </main>
+        </>
+    );
 };
 
 export default MainLayout;

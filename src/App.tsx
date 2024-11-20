@@ -10,40 +10,38 @@ import RandomMoviePage from "./pages/RandomMoviePage";
 
 const App = () => {
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Navigate to="/movies"/>,
-    },
-    {
-      path: '/movies',
-      element: <MainLayout/>,
-      children: [
+    const router = createBrowserRouter([
         {
-          index: true,
-          element: <MainPage/>,
+            path: '/',
+            element: <MainLayout/>,
+            children: [
+                {
+                    index: true,
+                    element: <MainPage/>,
+                },
+                {
+                    path: ':movieId',
+                    element: <MovieDetailsPage/>
+                },
+                {
+                    path: 'random',
+                    element: <RandomMoviePage/>
+                },
+                {
+                    path: '*',
+                    element: <ErrorPage message={'Page not found!'}/>,
+                },
+            ]
         },
-        {
-          path: ':movieId',
-          element: <MovieDetailsPage/>
-        },
-        {
-          path: 'random',
-          element: <RandomMoviePage/>
-        },
-      ]
-    },
-    {
-      path: '*',
-      element: <ErrorPage message={'Page not found!'}/>,
-    }
-  ])
 
-  return (
-    <div className="App">
-      <RouterProvider router={router}/>
-    </div>
-  );
+
+    ])
+
+    return (
+        <div className="App">
+            <RouterProvider router={router}/>
+        </div>
+    );
 };
 
 export default App;

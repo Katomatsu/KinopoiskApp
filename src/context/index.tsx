@@ -20,9 +20,9 @@ const MoviesContext = createContext<MovieContextProps | undefined>(undefined);
 
 export const MovieContextProvider: React.FC<PropsWithChildren> = ({children}) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [genre, setGenre] = useState<string>('')
-  const [status, setStatus] = useState<string>('')
-  const [type, setType] = useState<string>('')
+  const [genre, setGenre] = useState<string>(null)
+  const [status, setStatus] = useState<string>(null)
+  const [type, setType] = useState<string>(null)
   const [currPage, setCurrPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
   return <MoviesContext.Provider value={{

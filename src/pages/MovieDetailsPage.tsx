@@ -4,7 +4,8 @@ import {useParams} from "react-router-dom";
 import {MovieModel} from "../models";
 import {useFetchData} from "../hooks";
 import {Spin} from "antd";
-import ErrorPage from "./ErrorPage";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
+import {baseUrl} from "../constants";
 
 const MovieDetailsPage = () => {
     const {movieId} = useParams();
@@ -14,9 +15,9 @@ const MovieDetailsPage = () => {
         isLoading,
         isError,
         error
-    } = useFetchData<MovieModel>(`https://api.kinopoisk.dev/v1.4/movie/${movieId}`)
+    } = useFetchData<MovieModel>(`${baseUrl}/movie/${movieId}`)
     if (isError) {
-        return <ErrorPage message={error.message}/>
+        return <ErrorMessage message={error.message}/>
     }
 
     return (

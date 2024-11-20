@@ -6,6 +6,7 @@ import {A11y, Mousewheel, Navigation, Pagination, Scrollbar} from "swiper/module
 import {Swiper, SwiperSlide} from "swiper/react";
 import MovieItem from "../Movies/MovieItem";
 import styled from "styled-components";
+import {Typography} from "antd";
 
 const breakPoints: { [key: number]: { [key: string]: number } } = {
   320: {
@@ -29,6 +30,7 @@ const breakPoints: { [key: number]: { [key: string]: number } } = {
 
 const Wrapper = styled.div`
     padding-bottom: 40px;
+    text-align: center;
 `
 
 interface SimilarMoviesProps {
@@ -39,11 +41,12 @@ const SimilarMovies = ({similarMovies}: SimilarMoviesProps) => {
 
   return (
     <Wrapper>
+      <Typography.Title level={2}>Similar Movies</Typography.Title>
       {similarMovies ?
         <Swiper
           modules={[Pagination, Scrollbar, A11y, Mousewheel]}
           breakpoints={breakPoints}
-          mousewheel={true}
+          mousewheel={similarMovies.length > 5}
           loop={true}
           pagination={{clickable: true}}
         >

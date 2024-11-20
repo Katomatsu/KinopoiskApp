@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input } from "antd";
 import FiltersDropdown from "../Filters/FiltersDropdown/FiltersDropdown";
-import { MoviesResponseModel } from "../../models";
-import { useMoviesContext } from "../../context";
-import { useFetchData } from "../../hooks";
+
 import styled from "styled-components";
 
 const { Search } = Input;
@@ -41,12 +39,6 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
     setInput(event.target.value);
   };
 
-  // const { data, refetch } = useFetchData<MoviesResponseModel>('https://api.kinopoisk.dev/v1.4/movie/search', {
-  //   query: searchTerm,
-  //   page: 1,
-  //   limit: 100,
-  // });
-
   const handleSearch = () => {
     if (input.trim()) {
       onSearch(input);
@@ -60,7 +52,6 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
         value={input}
         onChange={handleInputChange}
         onSearch={handleSearch}
-        enterButton='search'
         size='large'
         placeholder='search for a movie...'
       />

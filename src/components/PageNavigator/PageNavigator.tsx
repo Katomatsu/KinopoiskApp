@@ -1,7 +1,7 @@
 import { Pagination } from "antd";
-import { useMoviesContext } from "../../context";
 import React from "react";
 import styled from "styled-components";
+import {useMoviesContext} from "../../context";
 
 interface PageNavigatorProps {
   totalPages: number;

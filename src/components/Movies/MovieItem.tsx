@@ -10,12 +10,6 @@ interface MovieItemProps {
 
 const {Title} = Typography
 
-const StyledListItem = styled(List.Item)`
-    //display: grid;
-    //grid-template-columns: 1fr;
-    //gap: 16px; 
-`
-
 const StyledImage = styled.img`
     height: 300px !important;
     width: 100% !important;
@@ -37,15 +31,15 @@ const StyledCard = styled(Card)`
 const MovieItem = ({item}: MovieItemProps) => {
 
     return (
-        <StyledListItem>
-            <Link to={`/movies/${item.id}`}>
+        <List.Item>
+            <Link to={`/${item.id}`}>
                 <StyledCard hoverable
                             cover={item.poster?.previewUrl ? <StyledImage src={item.poster.previewUrl}
                                                                           alt={item.name}/> : <StyledSkeletonImage/>}>
                     <Title level={4}>{item.name ?? item.alternativeName}</Title>
                 </StyledCard>
             </Link>
-        </StyledListItem>
+        </List.Item>
     );
 };
 

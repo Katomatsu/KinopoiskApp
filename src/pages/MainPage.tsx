@@ -3,11 +3,12 @@ import MovieList from "../components/Movies/MovieList";
 import Filters from "../components/Filters/Filters";
 import {Layout, Spin} from "antd";
 import {MoviesResponseModel} from "../models";
+import {baseUrl, notNullFields} from "../constants";
 import {useMoviesContext} from "../context";
 import {useFetchData} from "../hooks";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar/SearchBar";
-import ErrorPage from "./ErrorPage";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 
 const {Content, Sider} = Layout;
 
@@ -33,14 +34,28 @@ const SearchBarWrapper = styled.div`
 `;
 
 const MainPage = () => {
-    const {genre, status, type, currPage, pageSize, searchTerm, setSearchTerm} = useMoviesContext();
+    const {
+        genre,
+        status,
+        type,
+        setType,
+        setGenre,
+        setStatus,
+        currPage,
+        pageSize,
+        searchTerm,
+        setSearchTerm
+    } = useMoviesContext();
     const [movies, setMovies] = useState<MoviesResponseModel>();
 
     const handleSearch = (searchString: string) => {
         setSearchTerm(searchString);
+        setType(null)
+        setGenre(null)
+        setStatus(null)
     }
 
-    let reqUrl: string = 'https://api.kinopoisk.dev/v1.4/movie?notNullFields=similarMovies.id&notNullFields=description&notNullFields=poster.url';
+    let reqUrl: string = `${baseUrl}/movie?${notNullFields}`;
 
     const params: Record<string, string | number> = {
         page: currPage,
@@ -48,7 +63,7 @@ const MainPage = () => {
     };
     if (searchTerm) {
         params['query'] = searchTerm;
-        reqUrl = 'https://api.kinopoisk.dev/v1.4/movie/search';
+        reqUrl = `${baseUrl}/movie/search`;
     } else {
         if (genre) params['genres.name'] = genre;
         if (status) params['status'] = status;
@@ -63,9 +78,8 @@ const MainPage = () => {
         if (data) {
             setMovies(data);
         }
-    }, [data, searchTerm, genre,status,type]);
+    }, [data, searchTerm, genre, status, type]);
 
-    if (isError) return <ErrorPage message={error.message}/>;
 
     return (
         <Layout>
@@ -73,11 +87,11 @@ const MainPage = () => {
                 <SearchBarWrapper>
                     <SearchBar onSearch={handleSearch}/>
                 </SearchBarWrapper>
-                {isLoading
-                    ? <Spin tip="Fetching movies from the server..." size={"large"}>
-                        <div/>
-                    </Spin>
-                    : <MovieList movies={movies}/>}
+                {
+                    isLoading && <Spin tip="Fetching movies from the server..." size={"large"}><div/></Spin>
+                }
+                {!isLoading && !isError && <MovieList movies={movies}/>}
+                {!isLoading && isError && <ErrorMessage message={error.message}/>}
             </StyledContent>
             <StyledSider width={'20%'}>
                 <Filters margin={'40px 0 0 0'} padding={'0 10px'}/>

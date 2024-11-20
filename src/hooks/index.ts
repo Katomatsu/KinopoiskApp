@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
+import {API_KEY} from "../constants";
 
 interface IParams {
   page?: number;
@@ -9,13 +10,13 @@ interface IParams {
 }
 
 
-export const useFetchData = <T>(url: string, params?: IParams | null) => {
+export const useFetchData = <T>(url: string, params?: IParams) => {
 
   const fetchData = async (): Promise<T> => {
     const {data} = await axios.get(url, {
       params,
       headers: {
-        'X-API-KEY': 'T6Z3RCY-8PJ4B99-M3KQ3MD-H97NKNF',
+        'X-API-KEY': API_KEY,
         'accept': 'application/json'
       }
     })
