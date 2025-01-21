@@ -1,6 +1,6 @@
-#Kinopoisk Clone
+# Kinopoisk Clone
 
-##To start this application do the following steps: 
+## To start this application do the following steps: 
 
 #### run:  `git clone https://github.com/Katomatsu/KinopoiskApp.git`
 
